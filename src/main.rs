@@ -33,6 +33,7 @@ fn main(){
         }
     };
 
+    let landmarks = landmarks::LANDMARKS.lock().unwrap();
     println!("{:?}", parsed_code);
-    println!("{:?}", landmarks::LANDMARKS.get("James"));
+    println!("{:?}", landmarks);
 }
