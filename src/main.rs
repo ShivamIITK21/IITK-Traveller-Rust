@@ -2,6 +2,7 @@ mod program_state;
 mod parser;
 mod landmarks;
 mod graph;
+mod operations;
 
 use std::env;
 use std::process;
@@ -34,9 +35,12 @@ fn main(){
         }
     };
 
-    println!("{:?}", parsed_code);
+    // println!("{:?}", parsed_code);
 
     let graph = graph::generate_graph(parsed_code);
 
     print!("{:?}", graph);
+
+    let mut state = program_state::ProgramState::new();
+    println!("{:?}", state.tape);
 }

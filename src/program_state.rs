@@ -1,8 +1,9 @@
 pub struct ProgramState{
-    pub mem1: i32,
-    pub mem2: i32,
-    pub mem3: i32,
+    pub mem1: usize,
+    pub mem2: usize,
+    pub mem3: usize,
     pub cond: i32,
+    pub location: i32,
     pub tape: Vec<i32>
 }
 
@@ -13,9 +14,10 @@ impl ProgramState{
 
         let state = ProgramState{
             mem1: 0,
-            mem2: 0,
-            mem3: 0,
+            mem2: 1,
+            mem3: 2,
             cond: 0,
+            location: 0,
             tape: tape
         };
 
