@@ -24,7 +24,7 @@ lazy_static!{
         map.insert("lecture_hall_gt_f", 16);
         map.insert("lecture_hall_lt", 17);  // mem[mem_1] < mem[mem_2]
         map.insert("lecture_hall_lt_t", 18);
-        map.insert("lecture_hall_lf_f", 19);
+        map.insert("lecture_hall_lt_f", 19);
         map.insert("lecture_hall_eq", 20);  // mem[mem_1] == mem[mem_2]
         map.insert("lecture_hall_eq_t", 21);
         map.insert("lecture_hall_eq_f", 22);

@@ -30,7 +30,7 @@ fn check_syntax(line:&str) -> bool{
 }
 
 pub fn parse_code(code: &String) -> Result<Vec<Vec<String>>, i32>{
-    let mut parsed: Vec<Vec<String>> = vec![vec![String::from("this"), String::from("is"), String::from("temporary")], ];
+    let mut parsed: Vec<Vec<String>> = Vec::new();
 
     let mut counter = 0;
     for line in code.lines(){

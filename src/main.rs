@@ -1,6 +1,7 @@
 mod program_state;
 mod parser;
 mod landmarks;
+mod graph;
 
 use std::env;
 use std::process;
@@ -33,7 +34,9 @@ fn main(){
         }
     };
 
-    let landmarks = landmarks::LANDMARKS.lock().unwrap();
     println!("{:?}", parsed_code);
-    println!("{:?}", landmarks);
+
+    let graph = graph::generate_graph(parsed_code);
+
+    print!("{:?}", graph);
 }
