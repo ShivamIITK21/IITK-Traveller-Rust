@@ -1,5 +1,7 @@
 use std::collections::HashMap;
 use std::process;
+use crate::operations::operate;
+use crate::program_state::ProgramState;
 
 pub fn generate_graph(parsed_code:Vec<Vec<String>>) -> HashMap<i32, HashMap<i32, i32>>{
     let landmarks = crate::landmarks::LANDMARKS.lock().unwrap();
@@ -7,7 +9,6 @@ pub fn generate_graph(parsed_code:Vec<Vec<String>>) -> HashMap<i32, HashMap<i32,
     let mut graph:HashMap<i32, HashMap<i32, i32>> = HashMap::new();
 
     for instruction in parsed_code.iter(){
-        // println!("{}", &instruction[0]);
         let landmark1 = match landmarks.get(&instruction[0] as &str){
             Some(s) => s,
             None => {
@@ -31,14 +32,12 @@ pub fn generate_graph(parsed_code:Vec<Vec<String>>) -> HashMap<i32, HashMap<i32,
                 process::exit(1);
             }
         };
-
-        println!("{} {} {}", *landmark1, cond, *landmark2);
         
         match graph.get_mut(landmark1) {
             Some(map) => {
                 match (*map).get_mut(&cond){
                     Some(_i) => {
-                        println!("Program stuck on {}", *landmark1);
+                        println!("Program stuck on {}", instruction[0]);
                         process::exit(1);
                     },
                     None => {
@@ -52,10 +51,34 @@ pub fn generate_graph(parsed_code:Vec<Vec<String>>) -> HashMap<i32, HashMap<i32,
                 graph.insert(*landmark1, temp);
             }
         }
-
-        // println!("{}", landmark1);
     }
 
     graph
 }
 
+pub fn traverse(graph: &HashMap<i32, HashMap<i32, i32>>, state:&mut ProgramState){
+    
+    while state.location != 1 {
+        operate(state.location, state);
+
+        match graph.get(&state.location){
+            Some(map) => {
+                match map.get(&state.cond){
+                    Some(loc) => {
+                        state.location = *loc;
+                    },
+                    None => {
+                        println!("Program got stuck at a location");
+                        process::exit(1);
+                    }
+                }
+            }
+            None => {
+                println!("Program got stuck at a location");
+                process::exit(1);
+            }
+        }
+    }
+
+    operate(1, state);
+}

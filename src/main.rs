@@ -7,8 +7,9 @@ mod operations;
 use std::env;
 use std::process;
 
+use crate::graph::traverse;
+
 fn main(){
-    // let mut state = program_state::ProgramState::new();
     let args:Vec<String> = env::args().collect();
 
     let filename = match parser::take_arguments(&args) {
@@ -35,12 +36,9 @@ fn main(){
         }
     };
 
-    // println!("{:?}", parsed_code);
-
     let graph = graph::generate_graph(parsed_code);
 
-    print!("{:?}", graph);
-
     let mut state = program_state::ProgramState::new();
-    println!("{:?}", state.tape);
+
+    traverse(&graph, &mut state);
 }
