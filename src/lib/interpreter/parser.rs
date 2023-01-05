@@ -1,22 +1,22 @@
-use std::{fs, error::Error};
+// use std::{fs, error::Error};
 use regex::Regex;
 use lazy_static::lazy_static;
 
-pub fn take_arguments(args: &Vec<String>) -> Result<String, &str>{
-    if args.len() < 2{
-        return Err("Not enough arguments");
-    }
+// pub fn take_arguments(args: &Vec<String>) -> Result<String, &str>{
+//     if args.len() < 2{
+//         return Err("Not enough arguments");
+//     }
     
-    let filename: String = args[1].clone();
-    return Ok(filename)
+//     let filename: String = args[1].clone();
+//     return Ok(filename)
 
-}
+// }
 
-pub fn get_code(filename : &String) -> Result<String, Box<dyn Error>>{
-    let code = fs::read_to_string(filename)?;
+// pub fn get_code(filename : &String) -> Result<String, Box<dyn Error>>{
+//     let code = fs::read_to_string(filename)?;
 
-    return Ok(code);
-}
+//     return Ok(code);
+// }
 
 fn remove_whitespace(s: &str) -> String {
     s.split_whitespace().collect()

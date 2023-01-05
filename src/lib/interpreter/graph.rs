@@ -1,10 +1,11 @@
 use std::collections::HashMap;
 use std::process;
-use crate::operations::operate;
-use crate::program_state::ProgramState;
+use super::operations::operate;
+use super::program_state::ProgramState;
+use std::io::Cursor;
 
 pub fn generate_graph(parsed_code:Vec<Vec<String>>) -> HashMap<i32, HashMap<i32, i32>>{
-    let landmarks = crate::landmarks::LANDMARKS.lock().unwrap();
+    let landmarks = super::landmarks::LANDMARKS.lock().unwrap();
 
     let mut graph:HashMap<i32, HashMap<i32, i32>> = HashMap::new();
 
@@ -56,10 +57,11 @@ pub fn generate_graph(parsed_code:Vec<Vec<String>>) -> HashMap<i32, HashMap<i32,
     graph
 }
 
-pub fn traverse(graph: &HashMap<i32, HashMap<i32, i32>>, state:&mut ProgramState){
+pub fn traverse(graph: &HashMap<i32, HashMap<i32, i32>>, state:&mut ProgramState, input: Cursor<&[u8]>, output: &mut Vec<u8>){
+    let mut input = input;
     
     while state.location != 1 {
-        operate(state.location, state);
+        operate(state.location, state, &mut input, output);
 
         match graph.get(&state.location){
             Some(map) => {
@@ -80,5 +82,5 @@ pub fn traverse(graph: &HashMap<i32, HashMap<i32, i32>>, state:&mut ProgramState
         }
     }
 
-    operate(1, state);
+    operate(1, state, &mut input, output);
 }

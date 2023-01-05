@@ -1,19 +1,25 @@
-use text_io::read;
 use std::process;
+use std::io::{Cursor, Write, BufRead};
 
-pub fn operate(location:i32, state:&mut crate::program_state::ProgramState){
+pub fn operate(location:i32, state:&mut super::program_state::ProgramState, input: &mut Cursor<&[u8]>, output: &mut Vec<u8>){
     let tape = &mut state.tape;
     
     match location{
         0 => {},
         1 => process::exit(0),
         2 => {
-            let i: i32 = read!();
-            tape[state.mem1] = i;
+            // let i: i32 = read!();
+            let mut buf = String::new();
+            (*input).read_line(&mut buf).unwrap();
+            // println!("{}",buf);
+            tape[state.mem1] = buf.trim().parse().unwrap();
         },
         3 => {
-            let i: i32 = read!();
-            tape[state.mem2] = i;
+            // let i: i32 = read!();
+            let mut buf = String::new();
+            (*input).read_line(&mut buf).unwrap();
+            // println!("{}",buf);
+            tape[state.mem2] = buf.trim().parse().unwrap();
         }
         4 => {
             tape[state.mem3] = tape[state.mem1]+tape[state.mem2];
@@ -41,9 +47,11 @@ pub fn operate(location:i32, state:&mut crate::program_state::ProgramState){
         }
         12 => {
             println!("{}", tape[state.mem1]);
+            output.write_all(&tape[state.mem1].to_be_bytes()).unwrap();
         }
         13 => {
             println!("{}", tape[state.mem2]);
+            output.write_all(&tape[state.mem2].to_be_bytes()).unwrap();
         }
         14 => {
             if tape[state.mem1] > tape[state.mem2] {
