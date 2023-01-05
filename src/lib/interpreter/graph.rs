@@ -57,10 +57,11 @@ pub fn generate_graph(parsed_code:Vec<Vec<String>>) -> HashMap<i32, HashMap<i32,
     graph
 }
 
-pub fn traverse(graph: &HashMap<i32, HashMap<i32, i32>>, state:&mut ProgramState, input: Cursor<&[u8]>, output: &mut Vec<u8>){
+pub fn traverse(graph: &HashMap<i32, HashMap<i32, i32>>, state:&mut ProgramState, input: Cursor<&[u8]>, output: &mut String){
     let mut input = input;
     
     while state.location != 1 {
+        // println!("Hello");
         operate(state.location, state, &mut input, output);
 
         match graph.get(&state.location){
@@ -71,16 +72,14 @@ pub fn traverse(graph: &HashMap<i32, HashMap<i32, i32>>, state:&mut ProgramState
                     },
                     None => {
                         println!("Program got stuck at a location");
-                        process::exit(1);
                     }
                 }
             }
             None => {
                 println!("Program got stuck at a location");
-                process::exit(1);
             }
         }
     }
 
-    operate(1, state, &mut input, output);
+    // operate(1, state, &mut input,output);
 }

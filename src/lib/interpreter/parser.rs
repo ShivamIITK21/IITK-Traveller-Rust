@@ -35,7 +35,7 @@ pub fn parse_code(code: &String) -> Result<Vec<Vec<String>>, i32>{
     let mut counter = 0;
     for line in code.lines(){
         counter += 1;
-        if line == "" {
+        if line == "" || line == "\n" {
             continue;
         }
 

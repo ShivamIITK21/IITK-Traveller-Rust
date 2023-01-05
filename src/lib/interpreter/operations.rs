@@ -1,7 +1,7 @@
 use std::process;
 use std::io::{Cursor, Write, BufRead};
 
-pub fn operate(location:i32, state:&mut super::program_state::ProgramState, input: &mut Cursor<&[u8]>, output: &mut Vec<u8>){
+pub fn operate(location:i32, state:&mut super::program_state::ProgramState, input: &mut Cursor<&[u8]>, output: &mut String){
     let tape = &mut state.tape;
     
     match location{
@@ -46,12 +46,23 @@ pub fn operate(location:i32, state:&mut super::program_state::ProgramState, inpu
             tape[state.mem3] = tape[state.mem2];
         }
         12 => {
-            println!("{}", tape[state.mem1]);
-            output.write_all(&tape[state.mem1].to_be_bytes()).unwrap();
+            // println!("{}", tape[state.mem1]);
+            output.push_str(&(tape[state.mem1].to_string()));
+            output.push_str("\n");
+            // output.push(65 as u8);
+            // let cop = output.clone();
+            // *output = cop;
+            // println!("{}", String::from_utf8(cop).unwrap());
+
         }
         13 => {
-            println!("{}", tape[state.mem2]);
-            output.write_all(&tape[state.mem2].to_be_bytes()).unwrap();
+            // println!("{}", tape[state.mem2]);
+            output.push_str(&(tape[state.mem2].to_string()));
+            output.push_str("\n");
+            // output.push(65 as u8);
+            // let cop = output.clone();
+            // *output = cop;
+            // println!("{}", String::from_utf8(cop).unwrap());
         }
         14 => {
             if tape[state.mem1] > tape[state.mem2] {
